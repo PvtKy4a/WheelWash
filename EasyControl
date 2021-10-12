@@ -1,0 +1,32 @@
+#include <EncButton.h>
+EncButton<EB_TICK, 12> btn(INPUT_PULLUP);
+
+#define motor1 6
+#define motor2 7
+
+void setup() {
+
+  pinMode(motor1, OUTPUT);
+  pinMode(motor2, OUTPUT);
+
+}
+
+void loop() {
+
+  btn.tick();
+
+  static bool work_start = false;
+  static uint32_t work_timer;
+  if (btn.isClick()) {
+    digitalWrite(motor1, HIGH);
+    digitalWrite(motor2, HIGH);
+    work_start = true;
+    work_timer = millis();
+  }
+  static uint16_t work_time = 60000;
+  if (work_start == true && millis() - work_timer >= work_time) {
+    digitalWrite(motor1, LOW);
+    digitalWrite(motor2, LOW);
+    work_start = false;
+  }
+}
