@@ -40,7 +40,7 @@ void loop() {
   static bool mode_available = true;
   static uint16_t wash_time;
   if (protect_flag == true) {
-    if (mode_available == true && mode1.press()) {
+    if (mode_available == true && mode1.held()) {
       mode_available = false;
       wash_time = 20000;
       digitalWrite(pump, HIGH);
@@ -48,7 +48,7 @@ void loop() {
       wash_start = true;
       wash_timer = millis();
     }
-    if (mode_available == true && mode2.press()) {
+    if (mode_available == true && mode2.held()) {
       mode_available = false;
       wash_time = 40000;
       digitalWrite(pump, HIGH);
@@ -56,7 +56,7 @@ void loop() {
       wash_start = true;
       wash_timer = millis();
     }
-    if (mode_available == true && mode3.press()) {
+    if (mode_available == true && mode3.held()) {
       mode_available = false;
       wash_time = 60000;
       digitalWrite(pump, HIGH);
@@ -64,7 +64,7 @@ void loop() {
       wash_start = true;
       wash_timer = millis();
     }
-    if (mode_available == true && dry.press()) {
+    if (mode_available == true && dry.held()) {
       mode_available = false;
       digitalWrite(wheel_spin, HIGH);
       digitalWrite(air_valve, HIGH);
