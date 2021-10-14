@@ -37,30 +37,35 @@ void loop() {
   static uint32_t dry_timer;
   static bool wash_start = false;
   static bool dry_start = false;
+  static bool mode_available = true;
   static uint16_t wash_time;
   if (protect_flag == true) {
-    if (mode1.press()) {
+    if (mode_available == true && mode1.press()) {
+      mode_available = false;
       wash_time = 20000;
       digitalWrite(pump, HIGH);
       digitalWrite(wheel_spin, HIGH);
       wash_start = true;
       wash_timer = millis();
     }
-    if (mode2.press()) {
+    if (mode_available == true && mode2.press()) {
+      mode_available = false;
       wash_time = 40000;
       digitalWrite(pump, HIGH);
       digitalWrite(wheel_spin, HIGH);
       wash_start = true;
       wash_timer = millis();
     }
-    if (mode3.press()) {
+    if (mode_available == true && mode3.press()) {
+      mode_available = false;
       wash_time = 60000;
       digitalWrite(pump, HIGH);
       digitalWrite(wheel_spin, HIGH);
       wash_start = true;
       wash_timer = millis();
     }
-    if (dry.press()) {
+    if (mode_available == true && dry.press()) {
+      mode_available = false;
       digitalWrite(wheel_spin, HIGH);
       digitalWrite(air_valve, HIGH);
       dry_start = true;
@@ -77,11 +82,15 @@ void loop() {
       digitalWrite(wheel_spin, LOW);
       digitalWrite(air_valve, LOW);
       dry_start = false;
+      mode_available = true;
     }
-  } else {
+  } else if (wash_start == true || dry_start == true) {
     digitalWrite(pump, LOW);
     digitalWrite(wheel_spin, LOW);
     digitalWrite(air_valve, LOW);
+    wash_start = false;
+    dry_start = false;
+    mode_available = true;
   }
 
 }
